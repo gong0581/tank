@@ -14,8 +14,8 @@ import java.awt.event.WindowEvent;
  **/
 public class TankFrame extends Frame {
 
-    int x = 200;
-    int y = 200;
+    Tank myTank = new Tank(200, 200, DirectionEnum.UP);
+    Bullet bullet = new Bullet(300, 300, DirectionEnum.UP);
 
     public TankFrame() {
         // 设置窗口长宽
@@ -42,8 +42,8 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        // 画出一个黑色方块
-        g.fillRect(x, y, 50, 50);
+        myTank.paint(g);
+        bullet.paint(g);
 
     }
 
@@ -78,7 +78,7 @@ public class TankFrame extends Frame {
                     break;
             }
 
-            x += 50;
+            setMainTankDir();
         }
 
         @Override
@@ -99,6 +99,20 @@ public class TankFrame extends Frame {
                     break;
                 default:
                     break;
+            }
+
+            setMainTankDir();
+        }
+
+        private void setMainTankDir() {
+            if (!leftFlag && !rightFlag && !upFlag && !downFlag) {
+                myTank.setMoving(false);
+            } else {
+                myTank.setMoving(true);
+                if (leftFlag) myTank.setDirection(DirectionEnum.LEFT);
+                if (rightFlag) myTank.setDirection(DirectionEnum.RIGHT);
+                if (upFlag) myTank.setDirection(DirectionEnum.UP);
+                if (downFlag) myTank.setDirection(DirectionEnum.DOWN);
             }
         }
     }
