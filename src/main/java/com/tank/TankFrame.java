@@ -52,14 +52,54 @@ public class TankFrame extends Frame {
      */
     class MyKeyListener extends KeyAdapter {
 
+        boolean leftFlag = false;
+        boolean upFlag = false;
+        boolean rightFlag = false;
+        boolean downFlag = false;
+
         @Override
         public void keyPressed(KeyEvent e) {
+            // 获取按键的代码
+            int key = e.getKeyCode();
+            switch (key) {
+                case KeyEvent.VK_LEFT:
+                    leftFlag = true;
+                    break;
+                case KeyEvent.VK_UP:
+                    upFlag = true;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    rightFlag = true;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    downFlag = true;
+                    break;
+                default:
+                    break;
+            }
+
             x += 50;
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-
+            int key = e.getKeyCode();
+            switch (key) {
+                case KeyEvent.VK_LEFT:
+                    leftFlag = false;
+                    break;
+                case KeyEvent.VK_UP:
+                    upFlag = false;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    rightFlag = false;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    downFlag = false;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
