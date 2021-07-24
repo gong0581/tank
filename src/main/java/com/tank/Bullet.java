@@ -1,6 +1,7 @@
 package com.tank;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * @ClassName Bullet 子弹类
@@ -89,10 +90,26 @@ public class Bullet {
         if (!live) {
             this.tankFrame.bulletList.remove(this);
         }
-        Color color = graphics.getColor();
-        graphics.setColor(Color.RED);
-        graphics.fillOval(x, y, WIDTH, HEIGHT);
-        graphics.setColor(color);
+        BufferedImage image;
+        switch (direction) {
+            case LEFT:
+                image = ResourceMar.bulletL;
+                break;
+            case RIGHT:
+                image = ResourceMar.bulletR;
+                break;
+            case DOWN:
+                image = ResourceMar.bulletD;
+                break;
+            default:
+                image = ResourceMar.bulletU;
+                break;
+        }
+        graphics.drawImage(image, x, y, null);
+//        Color color = graphics.getColor();
+//        graphics.setColor(Color.RED);
+//        graphics.fillOval(x, y, WIDTH, HEIGHT);
+//        graphics.setColor(color);
         try {
             move();
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.tank;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * @ClassName Tank
@@ -18,9 +19,9 @@ public class Tank {
     private static final int SPEED = 5;
     private TankFrame tankFrame;
 
-    public static final int MY_TANK_WIDTH = 50;
+    public static final int MY_TANK_WIDTH = 44;
 
-    public static final int MY_TANK_HEIGHT = 50;
+    public static final int MY_TANK_HEIGHT = 44;
 
     public Tank(Integer x, Integer y, DirectionEnum direction, TankFrame tankFrame) {
         this.x = x;
@@ -74,11 +75,27 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
+        BufferedImage image;
+        switch (direction) {
+            case LEFT:
+                image = ResourceMar.tankL;
+                break;
+            case RIGHT:
+                image = ResourceMar.tankR;
+                break;
+            case DOWN:
+                image = ResourceMar.tankD;
+                break;
+            default:
+                image = ResourceMar.tankU;
+                break;
+        }
         // 画出一个黑色方块
-        Color c = g.getColor();
-        g.setColor(Color.yellow);
-        g.fillRect(x, y, MY_TANK_WIDTH, MY_TANK_HEIGHT);
-        g.setColor(c);
+//        Color c = g.getColor();
+        g.drawImage(image, x, y, null);
+//        g.setColor(Color.yellow);
+//        g.fillRect(x, y, MY_TANK_WIDTH, MY_TANK_HEIGHT);
+//        g.setColor(c);
         move();
     }
 
