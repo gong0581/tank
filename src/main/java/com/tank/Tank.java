@@ -16,11 +16,17 @@ public class Tank {
     // 是否移动
     private Boolean moving = false;
     private static final int SPEED = 5;
+    private TankFrame tankFrame;
 
-    public Tank(Integer x, Integer y, DirectionEnum direction) {
+    public static final int MY_TANK_WIDTH = 50;
+
+    public static final int MY_TANK_HEIGHT = 50;
+
+    public Tank(Integer x, Integer y, DirectionEnum direction, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.direction = direction;
+        this.tankFrame = tankFrame;
     }
 
     public Integer getX() {
@@ -59,11 +65,19 @@ public class Tank {
         this.moving = moving;
     }
 
+    public TankFrame getTankFrame() {
+        return tankFrame;
+    }
+
+    public void setTankFrame(TankFrame tankFrame) {
+        this.tankFrame = tankFrame;
+    }
+
     public void paint(Graphics g) {
         // 画出一个黑色方块
         Color c = g.getColor();
         g.setColor(Color.yellow);
-        g.fillRect(x, y, 50, 50);
+        g.fillRect(x, y, MY_TANK_WIDTH, MY_TANK_HEIGHT);
         g.setColor(c);
         move();
     }
@@ -85,7 +99,14 @@ public class Tank {
             case DOWN:
                 y += SPEED;
                 break;
-
+            default:
+                break;
         }
+    }
+
+    public void fire() {
+        int xPosition = this.x + (MY_TANK_WIDTH / 2) - (Bullet.WIDTH / 2);
+        int yPosition = this.y + (MY_TANK_HEIGHT / 2) - (Bullet.HEIGHT / 2);
+        tankFrame.bulletList.add(new Bullet(xPosition, yPosition, this.direction, true, this.tankFrame));
     }
 }

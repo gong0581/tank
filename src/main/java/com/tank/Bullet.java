@@ -15,16 +15,22 @@ public class Bullet {
 
     private int x, y;
 
-    private static final int HEIGHT = 10;
+    public static final int HEIGHT = 20;
 
-    private static final int WIDTH = 10;
+    public static final int WIDTH = 20;
 
     private DirectionEnum direction;
 
-    public Bullet(int x, int y, DirectionEnum direction) {
+    private Boolean live = true;
+
+    private TankFrame tankFrame;
+
+    public Bullet(int x, int y, DirectionEnum direction, Boolean live, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.direction = direction;
+        this.live = live;
+        this.tankFrame = tankFrame;
     }
 
     public static int getSPEED() {
@@ -63,15 +69,38 @@ public class Bullet {
         this.direction = direction;
     }
 
+    public Boolean getLive() {
+        return live;
+    }
+
+    public void setLive(Boolean live) {
+        this.live = live;
+    }
+
+    public TankFrame getTankFrame() {
+        return tankFrame;
+    }
+
+    public void setTankFrame(TankFrame tankFrame) {
+        this.tankFrame = tankFrame;
+    }
+
     public void paint(Graphics graphics) {
+        if (!live) {
+            this.tankFrame.bulletList.remove(this);
+        }
         Color color = graphics.getColor();
         graphics.setColor(Color.RED);
         graphics.fillOval(x, y, WIDTH, HEIGHT);
         graphics.setColor(color);
-        move();
+        try {
+            move();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void move() {
+    private void move() throws Exception {
         switch (direction) {
             case UP:
                 y -= SPEED;
@@ -85,7 +114,11 @@ public class Bullet {
             case DOWN:
                 y += SPEED;
                 break;
-
+            default:
+                throw new Exception("方向错误");
+        }
+        if (!(this.x >= 0 && this.x <= TankFrame.GAME_WIDTH && this.y >= 0 && this.y <= TankFrame.GAME_HEIGHT)) {
+            this.live = false;
         }
     }
 
