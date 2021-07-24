@@ -14,12 +14,16 @@ import java.awt.event.WindowEvent;
  **/
 public class TankFrame extends Frame {
 
+    private static final int GAME_WIDTH = 800;
+
+    private static final int GAME_HEIGHT = 600;
+
     Tank myTank = new Tank(200, 200, DirectionEnum.UP);
     Bullet bullet = new Bullet(300, 300, DirectionEnum.UP);
 
     public TankFrame() {
         // 设置窗口长宽
-        setSize(800, 600);
+        setSize(GAME_WIDTH, GAME_HEIGHT);
         // 设置窗口大小不能改变
         setResizable(false);
         // 设置窗口标题
@@ -45,6 +49,22 @@ public class TankFrame extends Frame {
         myTank.paint(g);
         bullet.paint(g);
 
+    }
+
+
+    Image offScreenImage = null;
+
+    @Override
+    public void update(Graphics g) {
+        if (offScreenImage == null) {
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+        }
+        Graphics offScreen = offScreenImage.getGraphics();
+        Color c = offScreen.getColor();
+        offScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        offScreen.setColor(c);
+        paint(offScreen);
+        g.drawImage(offScreenImage, 0, 0, null);
     }
 
     /**
